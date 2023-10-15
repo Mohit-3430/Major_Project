@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { db } from "../utils/db";
+import { db } from "../../utils/db";
 import bcrypt from "bcrypt";
 
 export const check = (req: Request, res: Response) => {
