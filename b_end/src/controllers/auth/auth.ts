@@ -18,8 +18,14 @@ export const loginHandler = async (req: Request, res: Response) => {
   }
   const isValid = await bcrypt.compare(password, user.password);
 
+  const data = {
+    id: user.id,
+    email: user.email,
+    user_name: user.user_name,
+  };
+
   if (isValid) {
-    res.status(200).json({ status: true, msg: "Login Successful" });
+    res.status(200).json({ status: true, msg: "Login Successful", user: data });
   } else {
     res.status(401).json({ status: false, msg: "wrong password!" });
   }
