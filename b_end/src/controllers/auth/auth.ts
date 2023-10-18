@@ -21,7 +21,6 @@ export const loginHandler = async (req: Request, res: Response) => {
   const data = {
     id: user.id,
     email: user.email,
-    user_name: user.user_name,
   };
 
   if (isValid) {
@@ -32,7 +31,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 };
 
 export const registerHandler = async (req: Request, res: Response) => {
-  const { email, user_name, password } = req.body;
+  const { email, name, password, age, usertype } = req.body;
   const user = await db.user.findUnique({
     where: {
       email: email,
@@ -43,19 +42,20 @@ export const registerHandler = async (req: Request, res: Response) => {
     try {
       const data = {
         email: email,
-        user_name: user_name,
+        name: name,
+        age: age,
         password: hashedPassword,
+        usertype: usertype,
       };
       const user = await db.user.create({
         data: data,
       });
 
-      res.json({ status: true, msg: "In process", user: user });
+      res.status(201).json({ status: true, msg: "In process", user: user });
     } catch (exp) {
-      console.log(exp);
-      res.json({ status: false, msg: "In process" });
+      res.status(401).json({ status: false, msg: "In process" });
     }
   } else {
-    res.json({ status: false, msg: "email already taken!" });
+    res.status(409).json({ status: false, msg: "email already taken!" });
   }
 };
