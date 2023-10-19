@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../../utils/db";
 import bcrypt from "bcrypt";
+import { issueJWT } from "../../utils/jwt";
 
 export const check = (req: Request, res: Response) => {
   res.json({ msg: "From auth route" });
@@ -18,12 +19,13 @@ export const loginHandler = async (req: Request, res: Response) => {
   }
   const isValid = await bcrypt.compare(password, user.password);
 
-  const data = {
-    id: user.id,
-    email: user.email,
-  };
-
   if (isValid) {
+    const { token } = await issueJWT(user.id);
+    const data = {
+      id: user.id,
+      email: user.email,
+      token: token,
+    };
     res.status(200).json({ status: true, msg: "Login Successful", user: data });
   } else {
     res.status(401).json({ status: false, msg: "wrong password!" });
