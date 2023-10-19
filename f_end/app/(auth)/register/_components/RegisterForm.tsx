@@ -10,14 +10,10 @@ import { ToastAction } from "@/components/ui/toast";
 import { registerSchema } from "./RegisterSchema";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,34 +23,44 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 const RegisterForm = () => {
-  // 1. Define your form.
   const router = useRouter();
   const [formStep, setFormStep] = useState(0);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
+    // default values are required to prevent react warning
+    //Warning: A component is changing an uncontrolled input to be controlled.
+    defaultValues: {
+      email: "",
+      name: "",
+      age: 0,
+      usertype: undefined,
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    // validation
+    form.trigger(["confirmPassword", "password"]);
+    const pswd = form.getFieldState("password");
+    const cpswd = form.getFieldState("confirmPassword");
+
+    if (!pswd.isDirty || pswd.invalid) return;
+    if (!cpswd.isDirty || cpswd.invalid) return;
+
+    //sending data
     const { email, name, age, usertype, password, confirmPassword } = values;
     if (password != confirmPassword) {
       toast({

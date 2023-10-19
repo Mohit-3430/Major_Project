@@ -14,5 +14,5 @@ export const registerSchema = z.object({
     required_error: "You need to select",
   }),
   password: z.string().min(6).max(100),
-  confirmPassword: z.string(),
+  confirmPassword: z.string({ required_error: "Retype password again" }).min(6),
 });
