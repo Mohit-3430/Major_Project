@@ -31,8 +31,11 @@ import { signIn } from "next-auth/react";
 const formSchema = z.object({
   email: z
     .string({ required_error: "Email is required!" })
+    .min(1, { message: "You must enter email" })
     .email("This is not a valid email."),
-  password: z.string({ required_error: "Password is required!" }),
+  password: z
+    .string({ required_error: "Password is required!" })
+    .min(1, { message: "You must enter password" }),
 });
 
 const LoginForm = () => {
@@ -50,6 +53,8 @@ const LoginForm = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    form.trigger(["email", "password"]);
+
     const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -86,7 +91,7 @@ const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter Email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -101,7 +106,7 @@ const LoginForm = () => {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="password"
+                        placeholder="Enter Password"
                         {...field}
                       />
                     </FormControl>
