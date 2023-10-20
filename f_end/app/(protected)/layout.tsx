@@ -1,3 +1,4 @@
+import AuthNavbar from "@/components/navbars/auth";
 import AuthProvider from "@/components/providers/auth-provider";
 
 export default function ProtectedLayout({
@@ -5,5 +6,10 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <AuthNavbar />
+      {children}
+    </AuthProvider>
+  );
 }
