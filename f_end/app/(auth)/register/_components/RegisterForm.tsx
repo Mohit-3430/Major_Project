@@ -86,7 +86,6 @@ const RegisterForm = () => {
       }
     );
     const finalResp = await res.json();
-    console.log(finalResp);
     if (res?.status == 201) {
       toast({
         title: "Registered!",
