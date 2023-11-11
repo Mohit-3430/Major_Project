@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
+import * as config from "@/lib/config";
 
 const AuthNavbar = () => {
   const pathname = usePathname();
@@ -13,7 +14,7 @@ const AuthNavbar = () => {
     <nav className="flex flex-row justify-around items-center font-medium">
       <div>
         <Link href="/dashboard">
-          <span className="text-2xl font-bold">AIPL</span>
+          <span className="text-2xl font-bold">{config.brand}</span>
         </Link>
       </div>
       <div className="flex flex-row justify-center items-center">

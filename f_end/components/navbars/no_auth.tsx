@@ -5,6 +5,7 @@ import { ModeToggle } from "../ui/toggle-theme";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import * as config from "@/lib/config";
 
 const NoAuthNavbar = () => {
   const pathname = usePathname();
@@ -12,7 +13,7 @@ const NoAuthNavbar = () => {
     <nav className="flex flex-row justify-around items-center font-medium">
       <div>
         <Link href="/">
-          <span className="text-2xl font-bold">AIPL</span>
+          <span className="text-2xl font-bold">{config.brand}</span>
         </Link>
       </div>
       <div className="flex flex-row justify-center items-center">
