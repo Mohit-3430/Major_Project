@@ -25,6 +25,7 @@ export const loginHandler = async (req: Request, res: Response) => {
       id: user.id,
       email: user.email,
       token: token,
+      usertype: user.usertype,
     };
     res.status(200).json({ status: true, msg: "Login Successful", user: data });
   } else {
