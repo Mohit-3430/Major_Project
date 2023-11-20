@@ -8,7 +8,7 @@ export default function ProtectedLayout({
 }) {
   return (
     <AuthProvider>
-      <AuthNavbar />
+      {/* <AuthNavbar /> */}
       {children}
     </AuthProvider>
   );

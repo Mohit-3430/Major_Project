@@ -1,7 +1,13 @@
 import React from "react";
+import { Menu } from "./_components/helper/menu";
 
 const DashboardC = () => {
-  return <div>DashboardC</div>;
+  return (
+    <>
+      DashboardC
+      <Menu />
+    </>
+  );
 };
 
 export default DashboardC;
