@@ -1,6 +1,5 @@
 import { MainNav } from "./main-nav";
-import { Overview } from "./overview";
-import { RecentSales } from "./recent-sales";
 import { UserNav } from "./user-nav";
 
+import { Overview, RecentSales } from "./landing";
 export { MainNav, Overview, RecentSales, UserNav };
