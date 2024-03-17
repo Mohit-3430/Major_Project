@@ -55,7 +55,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  bio: "I own a computer.",
+  bio: "",
   urls: [{ value: "https://website.com" }, { value: "http://twitter.com/" }],
 };
 
@@ -133,7 +133,7 @@ export function ProfileForm() {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>Current Legal Case</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us a little bit about yourself"
@@ -142,8 +142,8 @@ export function ProfileForm() {
                 />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                Write short description of your requirement regarding legal
+                help. This helps us to suggest suitable lawyers.
               </FormDescription>
               <FormMessage />
             </FormItem>

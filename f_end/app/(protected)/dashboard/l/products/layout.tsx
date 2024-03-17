@@ -24,10 +24,10 @@ const sidebarNavItems = [
     title: "Legal Catchphrase Detection",
     href: "/dashboard/l/products/catchphrase",
   },
-  {
-    title: "Case Similarity",
-    href: "/dashboard/l/products/similarity",
-  },
+  // {
+  //   title: "Case Similarity",
+  //   href: "/dashboard/l/products/similarity",
+  // },
 ];
 
 interface SettingsLayoutProps {

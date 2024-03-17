@@ -11,13 +11,27 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  usertype  String
-  age       Int
-  password  String
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String
+  usertype    String
+  age         Int
+  password    String
+  createdAt   DateTime @default(now())
+  lawyerCases Case[]   @relation("LawyerCases")
+  clientCases Case[]   @relation("ClientCases")
 
   @@index([email])
+}
+
+model Case {
+  id        String   @id @default(uuid())
+  lawyer    User     @relation("LawyerCases", fields: [lawyerId], references: [id])
+  lawyerId  String
+  client    User     @relation("ClientCases", fields: [clientId], references: [id])
+  clientId  String
+  createdAt DateTime @default(now())
+
+  @@index([lawyerId])
+  @@index([clientId])
 }
