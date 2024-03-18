@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 const Dashboard = () => {
   const router = useRouter();
   const session: any = useSession();
+  const token = session.data?.user?.token;
+  localStorage.setItem("token", token);
+
   const usertype: string = session.data?.user.usertype;
 
   const render = () => {

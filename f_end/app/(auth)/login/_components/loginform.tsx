@@ -26,7 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const formSchema = z.object({
   email: z
@@ -42,6 +42,7 @@ const LoginForm = () => {
   // 1. Define your form.
   const router = useRouter();
   const { toast } = useToast();
+  const session = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

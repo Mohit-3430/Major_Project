@@ -1,15 +1,32 @@
-import { Metadata } from "next";
+"use client";
 
 import { MainNav, UserNav } from "../_components";
 import { ModeToggle } from "@/components/ui/toggle-theme";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
-import { AlbumArtwork } from "./components/album-artwork";
-import { Menu } from "./components/menu";
-import { listenNowAlbums, madeForYouAlbums } from "./data/albums";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { LawerCard } from "./components/LawyerCard";
 
 export default function DashboardL() {
+  const [lawyers, setLawyers] = useState([]);
+
+  useEffect(() => {
+    const fetchLawyers = async () => {
+      const resp = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/fetch-lawyers`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setLawyers(resp.data.data);
+    };
+    fetchLawyers();
+  }, []);
+
   return (
     <>
       <div className="flex-col md:flex">
@@ -41,16 +58,13 @@ export default function DashboardL() {
                   <div className="relative">
                     <ScrollArea>
                       <div className="flex space-x-4 pb-4">
-                        {listenNowAlbums.map((album) => (
-                          <AlbumArtwork
-                            key={album.name}
-                            album={album}
-                            className="w-[250px]"
-                            aspectRatio="portrait"
-                            width={250}
-                            height={330}
-                          />
-                        ))}
+                        <>
+                          {lawyers.map((item: any) => (
+                            <div key={item.email}>
+                              <LawerCard lname={item.name} email={item.email} />
+                            </div>
+                          ))}
+                        </>
                       </div>
                       <ScrollBar orientation="horizontal" />
                     </ScrollArea>
@@ -60,24 +74,13 @@ export default function DashboardL() {
                       Lawyers for you
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Your personalized lawyer applicants. Updated daily.
+                      Your personalized lawyers. Updated daily.
                     </p>
                   </div>
                   <Separator className="my-4" />
                   <div className="relative">
                     <ScrollArea>
-                      <div className="flex space-x-4 pb-4">
-                        {madeForYouAlbums.map((album) => (
-                          <AlbumArtwork
-                            key={album.name}
-                            album={album}
-                            className="w-[150px]"
-                            aspectRatio="square"
-                            width={150}
-                            height={150}
-                          />
-                        ))}
-                      </div>
+                      <div className="flex space-x-4 pb-4"></div>
                       <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                   </div>
