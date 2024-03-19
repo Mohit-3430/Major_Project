@@ -31,11 +31,60 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
+import MultipleSelector, { Option } from "@/components/ui/MultipleSelector";
 
 const RegisterForm = () => {
   const router = useRouter();
   const [formStep, setFormStep] = useState(0);
+  const [ustype, setUstype] = useState("");
   const { toast } = useToast();
+
+  const OPTIONS: Option[] = [
+    {
+      value: "Banking_and_Finance_Law",
+      label: "Banking and Finance Law",
+    },
+    {
+      value: "Civil_Litigation_and_Dispute_Law",
+      label: "Civil Litigation and Dispute Law",
+    },
+    {
+      value: "Corporate_Law",
+      label: "Corporate Law",
+    },
+    {
+      value: "Constitutional_Law",
+      label: "Constitutional Law",
+    },
+    {
+      value: "Consumer_Protection_Law",
+      label: "Consumer Protection Law",
+    },
+    {
+      value: "Criminal_Law",
+      label: "Criminal Law",
+    },
+    {
+      value: "Family_Law",
+      label: "Family Law",
+    },
+    {
+      value: "Human_Rights_Law",
+      label: "Human Rights Law",
+    },
+    {
+      value: "Intellectual_Property_Law",
+      label: "Intellectual Property Law",
+    },
+    {
+      value: "Property_Law",
+      label: "Property Law",
+    },
+    {
+      value: "Tax_Law",
+      label: "Tax Law",
+    },
+  ];
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -46,6 +95,7 @@ const RegisterForm = () => {
       name: "",
       age: 0,
       usertype: undefined,
+      specializations: [],
       password: "",
       confirmPassword: "",
     },
@@ -61,12 +111,23 @@ const RegisterForm = () => {
     if (!cpswd.isDirty || cpswd.invalid) return;
 
     //sending data
-    const { email, name, age, usertype, password, confirmPassword } = values;
+    const {
+      email,
+      name,
+      age,
+      usertype,
+      password,
+      confirmPassword,
+      specializations,
+    } = values;
+
+    const specs: Array<String> = values.specializations.map(
+      (option) => option.value
+    );
     if (password != confirmPassword) {
       toast({
         variant: "destructive",
         title: "Passwords not Matched!",
-        description: "Friday, February 10, 2023 at 5:57 PM",
       });
     }
     const res = await fetch(
@@ -81,6 +142,7 @@ const RegisterForm = () => {
           name: name,
           age: age,
           usertype: usertype,
+          specializations: specs,
           password: password,
         }),
       }
@@ -221,6 +283,32 @@ const RegisterForm = () => {
                   ease: "linear",
                 }}
               >
+                {/* {ustype === "Lawyer" && (
+                  <div className="mt-[-25px]">
+                    <FormLabel>Specializations</FormLabel>
+                    <MultiSelect />
+                  </div>
+                )} */}
+                {ustype === "Lawyer" && (
+                  <FormField
+                    control={form.control}
+                    name="specializations"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Frameworks</FormLabel>
+                        <FormControl>
+                          <MultipleSelector
+                            value={field.value}
+                            onChange={field.onChange}
+                            defaultOptions={OPTIONS}
+                            placeholder="Select frameworks you like..."
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="password"
@@ -278,6 +366,7 @@ const RegisterForm = () => {
                     const nameState = form.getFieldState("name");
                     const age = form.getFieldState("age");
                     const utype = form.getFieldState("usertype");
+                    setUstype(form.getValues("usertype"));
 
                     if (!emailState.isDirty || emailState.invalid) return;
                     if (!nameState.isDirty || nameState.invalid) return;
