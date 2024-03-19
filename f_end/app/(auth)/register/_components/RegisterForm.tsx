@@ -32,6 +32,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
 import MultipleSelector, { Option } from "@/components/ui/MultipleSelector";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -283,31 +284,33 @@ const RegisterForm = () => {
                   ease: "linear",
                 }}
               >
-                {/* {ustype === "Lawyer" && (
-                  <div className="mt-[-25px]">
-                    <FormLabel>Specializations</FormLabel>
-                    <MultiSelect />
-                  </div>
-                )} */}
                 {ustype === "Lawyer" && (
-                  <FormField
-                    control={form.control}
-                    name="specializations"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Frameworks</FormLabel>
-                        <FormControl>
-                          <MultipleSelector
-                            value={field.value}
-                            onChange={field.onChange}
-                            defaultOptions={OPTIONS}
-                            placeholder="Select frameworks you like..."
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="mt-[-25px]">
+                    <FormField
+                      control={form.control}
+                      name="specializations"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Frameworks</FormLabel>
+                          <FormControl>
+                            <MultipleSelector
+                              maxSelected={3}
+                              onMaxSelected={(maxLimit) => {
+                                toast({
+                                  title: `You have reached max selected: ${maxLimit}`,
+                                });
+                              }}
+                              value={field.value}
+                              onChange={field.onChange}
+                              defaultOptions={OPTIONS}
+                              placeholder="Select Upto 3 Areas"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 )}
                 <FormField
                   control={form.control}
@@ -345,14 +348,16 @@ const RegisterForm = () => {
                 />
               </motion.div>
               <div className="flex gap-2">
-                <Button
-                  type="submit"
-                  className={cn({
-                    hidden: formStep == 0,
-                  })}
-                >
-                  Submit
-                </Button>
+                <div className="mt-10">
+                  <Button
+                    type="submit"
+                    className={cn({
+                      hidden: formStep == 0,
+                    })}
+                  >
+                    Submit
+                  </Button>
+                </div>
                 <Button
                   type="button"
                   variant={"ghost"}
@@ -379,18 +384,20 @@ const RegisterForm = () => {
                   Next Step
                   <ArrowRightIcon className="w-4 h-4 ml-2" />
                 </Button>
-                <Button
-                  type="button"
-                  variant={"ghost"}
-                  onClick={() => {
-                    setFormStep(0);
-                  }}
-                  className={cn({
-                    hidden: formStep == 0,
-                  })}
-                >
-                  Go Back
-                </Button>
+                <div className="mt-10">
+                  <Button
+                    type="button"
+                    variant={"ghost"}
+                    onClick={() => {
+                      setFormStep(0);
+                    }}
+                    className={cn({
+                      hidden: formStep == 0,
+                    })}
+                  >
+                    Go Back
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>
