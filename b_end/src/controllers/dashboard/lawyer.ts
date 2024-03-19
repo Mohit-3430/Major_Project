@@ -9,6 +9,7 @@ export const FetchLawyers = async (req: Request, res: Response) => {
     select: {
       email: true,
       name: true,
+      specializations: true,
     },
   });
 

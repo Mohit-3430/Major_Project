@@ -61,7 +61,11 @@ export default function DashboardL() {
                         <>
                           {lawyers.map((item: any) => (
                             <div key={item.email}>
-                              <LawerCard lname={item.name} email={item.email} />
+                              <LawerCard
+                                lname={item.name}
+                                email={item.email}
+                                specializations={item.specializations}
+                              />
                             </div>
                           ))}
                         </>
