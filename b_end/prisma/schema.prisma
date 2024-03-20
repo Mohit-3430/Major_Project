@@ -32,6 +32,7 @@ model Case {
   client            User     @relation("ClientCases", fields: [clientMail], references: [email])
   clientMail        String
   createdAt         DateTime @default(now())
+  stage             String   @default("Started") // Started, Trail, Judgement, Closed
   transactionAmount Int
 
   @@index([lawyerMail])
