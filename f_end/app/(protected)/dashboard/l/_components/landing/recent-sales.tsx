@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SelectedCase } from "../../types/SelectedCase";
 import axios from "axios";
@@ -18,7 +20,6 @@ export function RecentSales(props: SelectedCase) {
       }
     )
     .then((resp) => {
-      console.log(resp.data.client.name);
       setName(resp.data.client.name);
     })
     .catch((err) => {
