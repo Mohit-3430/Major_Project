@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import { FetchLawyers } from "../../controllers";
+import { LawyerDashboardData } from "../../controllers";
 
 const router: Router = express.Router();
 
-router.get("/fetch-lawyers", FetchLawyers);
+router.get("/dashboard-data-lawyer", LawyerDashboardData);
 
 export default router;

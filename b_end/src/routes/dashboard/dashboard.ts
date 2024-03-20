@@ -1,8 +1,8 @@
 import express, { Router } from "express";
-import { dashboard } from "../../controllers/dashboard/dashboard";
+import { dashboardTest } from "../../controllers/dashboard/dashboard";
 
 const router: Router = express.Router();
 
-router.get("/", dashboard);
+router.get("/dashboard-home", dashboardTest);
 
 export default router;
