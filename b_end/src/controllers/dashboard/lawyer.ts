@@ -10,7 +10,6 @@ export const LawyerDashboardData = async (req: Request, res: Response) => {
       },
     });
 
-    console.log(reqcases);
     const totalAmount = reqcases.reduce((accumulator, currentTransaction) => {
       return accumulator + currentTransaction.transactionAmount;
     }, 0);
@@ -26,5 +25,19 @@ export const LawyerDashboardData = async (req: Request, res: Response) => {
       });
   } catch (exp) {
     res.status(400).json({ success: false, msg: "Not Active cases!" });
+  }
+};
+
+export const GetClientInformation = async (req: Request, res: Response) => {
+  const { clientMail } = req.body;
+  try {
+    const client = await db.user.findUnique({
+      where: {
+        email: clientMail,
+      },
+    });
+    res.status(200).json({ success: true, client: client });
+  } catch (err) {
+    res.status(409).json({ success: false, msg: "No Client Found!" });
   }
 };

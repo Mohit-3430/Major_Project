@@ -1,29 +1,41 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SelectedCase } from "../../types/SelectedCase";
+import axios from "axios";
+import { useState } from "react";
 
-export function RecentSales() {
+export function RecentSales(props: SelectedCase) {
+  const [name, setName] = useState<String>();
+  axios
+    .post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-client-info`,
+      {
+        clientMail: props.clientMail,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .then((resp) => {
+      console.log(resp.data.client.name);
+      setName(resp.data.client.name);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mt-2">
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
-          {/* <AvatarImage src="/avatars/01.png" alt="Avatar" /> */}
-          <AvatarFallback>C1</AvatarFallback>
+          <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Client 1</p>
-          <p className="text-sm text-muted-foreground">client1@email.com</p>
+          <p className="text-sm font-medium leading-none">{name}</p>
+          <p className="text-sm text-muted-foreground">{props.clientMail}</p>
         </div>
-        <div className="ml-auto font-medium">+₹19,999.00</div>
-      </div>
-      <div className="flex items-center">
-        <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
-          {/* <AvatarImage src="/avatars/02.png" alt="Avatar" /> */}
-          <AvatarFallback>C2</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Client 2</p>
-          <p className="text-sm text-muted-foreground">client2@email.com</p>
-        </div>
-        <div className="ml-auto font-medium">+₹5839.00</div>
+        <div className="ml-auto font-medium">{`+₹${props.transactionAmount}`}</div>
       </div>
     </div>
   );

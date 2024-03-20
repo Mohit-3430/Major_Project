@@ -1,6 +1,7 @@
-import { Metadata } from "next";
-import Image from "next/image";
+"use client";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -11,13 +12,42 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MainNav, Overview, RecentSales, UserNav } from "./_components";
 import { ModeToggle } from "@/components/ui/toggle-theme";
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app built using the components.",
-};
+import { SelectedCase } from "./types/SelectedCase";
 
 export default function DashboardL() {
+  const [clients, setClients] = useState([]);
+  const [activeClients, setActiveClients] = useState();
+  const [totalAmount, setTotalAmount] = useState();
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/lawyer-dashboard-data`,
+          {
+            lawyerMail: localStorage.getItem("lawyerMail"),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(data.cases);
+        const twoFields = data.cases.map((item: SelectedCase) => ({
+          clientMail: item.clientMail,
+          transactionAmount: item.transactionAmount,
+        }));
+        setClients(twoFields);
+        setTotalAmount(data.totalAmount);
+        setActiveClients(data.clientsCount);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchClients();
+  }, []);
+
   return (
     <>
       <div className="flex-col md:flex">
@@ -35,18 +65,6 @@ export default function DashboardL() {
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
-            {/* <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
-            </TabsList> */}
             <TabsContent value="overview" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
@@ -68,10 +86,10 @@ export default function DashboardL() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">₹45,231.89</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="text-2xl font-bold">{`₹${totalAmount}`}</div>
+                    {/* <p className="text-xs text-muted-foreground">
                       +20.1% from last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
                 <Card>
@@ -96,9 +114,9 @@ export default function DashboardL() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">+24</div>
-                    <p className="text-xs text-muted-foreground">
+                    {/* <p className="text-xs text-muted-foreground">
                       +20% from last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
                 <Card>
@@ -122,9 +140,9 @@ export default function DashboardL() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">+108</div>
-                    <p className="text-xs text-muted-foreground">
+                    {/* <p className="text-xs text-muted-foreground">
                       +18% from last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
                 <Card>
@@ -146,10 +164,10 @@ export default function DashboardL() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+2</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="text-2xl font-bold">{activeClients}</div>
+                    {/* <p className="text-xs text-muted-foreground">
                       +2 since last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
               </div>
@@ -164,11 +182,20 @@ export default function DashboardL() {
                 </Card>
                 <Card className="col-span-3">
                   <CardHeader>
-                    <CardTitle>Recent Clients</CardTitle>
-                    <CardDescription>2 clients this month</CardDescription>
+                    <CardTitle>Current Clients</CardTitle>
+                    <CardDescription>
+                      {activeClients} client(s) this month
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <RecentSales />
+                    {activeClients &&
+                      clients.map((item: SelectedCase, index) => (
+                        <RecentSales
+                          key={index}
+                          clientMail={item.clientMail}
+                          transactionAmount={item.transactionAmount}
+                        />
+                      ))}
                   </CardContent>
                 </Card>
               </div>
