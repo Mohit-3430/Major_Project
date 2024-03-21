@@ -5,6 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Label } from "@/components/ui/label";
 import { ClientDialog } from "./ClientDialog";
 import { useState } from "react";
@@ -62,7 +68,16 @@ export function ClientCard(props: any) {
               <Label htmlFor="name">Email</Label>
               <p id="name">{props.clientMail}</p>
             </div>
-            <Progress value={progressValue[stage]} />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Progress value={progressValue[stage]} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{stage}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <ClientDialog clientName={name} currCase={props.currCase} />
           </div>
         </form>

@@ -41,3 +41,29 @@ export const GetClientInformation = async (req: Request, res: Response) => {
     res.status(409).json({ success: false, msg: "No Client Found!" });
   }
 };
+
+export const updateCaseStage = async (req: Request, res: Response) => {
+  const { clientMail, lawyerMail, stage } = req.body;
+  try {
+    const reqCase = await db.case.findFirst({
+      where: {
+        clientMail: clientMail,
+        lawyerMail: lawyerMail,
+      },
+    });
+    const id = reqCase?.id;
+
+    const updatedCase = await db.case.update({
+      where: {
+        id: id,
+      },
+      data: {
+        stage: stage,
+      },
+    });
+
+    res.status(200).json({ success: true, msg: "Case Stage Updated!" });
+  } catch (err) {
+    res.status(409);
+  }
+};
