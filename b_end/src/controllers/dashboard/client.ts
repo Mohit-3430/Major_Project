@@ -19,7 +19,7 @@ export const FetchLawyers = async (req: Request, res: Response) => {
 };
 
 export const CreateCase = async (req: Request, res: Response) => {
-  const { lawyerMail, clientMail } = req.body;
+  const { lawyerMail, clientMail, caseArea } = req.body;
 
   try {
     const checkCase = await db.case.findFirst({
@@ -33,6 +33,7 @@ export const CreateCase = async (req: Request, res: Response) => {
         lawyerMail: lawyerMail,
         clientMail: clientMail,
         transactionAmount: 100,
+        caseArea: caseArea,
       };
 
       try {

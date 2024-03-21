@@ -13,38 +13,66 @@ import { LawyerData } from "../types/Lawyers";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import { lawSpecializations } from "../../util/Areas";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 export function LawyerDialog(props: LawyerData) {
   const session = useSession();
   const clientMail: String = session.data?.user?.email || "";
   const lawyerMail: String = props.email;
+  const [caseArea, setCaseArea] = useState<string>("");
   const { specializations } = props;
 
   const { toast } = useToast();
-
+  const handleSelectChange = (value: any) => {
+    console.log(value);
+    setCaseArea(value);
+  };
   const handleSubmit = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create-case`,
-        { clientMail: clientMail, lawyerMail: lawyerMail },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+    console.log(caseArea);
+    if (caseArea !== "") {
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create-case`,
+          {
+            clientMail: clientMail,
+            lawyerMail: lawyerMail,
+            caseArea: caseArea,
           },
-        }
-      )
-      .then((resp) => {
-        if (resp.status == 201) {
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((resp) => {
+          if (resp.status == 201) {
+            toast({
+              title: "Confirmed!",
+            });
+          }
+        })
+        .catch((err) => {
           toast({
-            title: "Confirmed!",
+            variant: "destructive",
+            title: "Already Consulted!",
           });
-        }
-      })
-      .catch((err) => {
-        toast({
-          title: "Already Consulted!",
         });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Select Case Area",
       });
+    }
   };
   return (
     <Dialog>
@@ -56,7 +84,6 @@ export function LawyerDialog(props: LawyerData) {
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>Lawyer Details and price</DialogDescription>
         </DialogHeader>
-        {/* <div className="grid gap-4 py-4"> */}
         <div className="items-center">
           <Label htmlFor="name" className="text-right">
             Name
@@ -73,9 +100,28 @@ export function LawyerDialog(props: LawyerData) {
           <Label htmlFor="username" className="text-right">
             Specializations
           </Label>
-          {specializations.map((sp, index) => (
-            <p key={index}>{sp}</p>
+          {specializations.map((sp: any, index) => (
+            <p key={index}>{lawSpecializations[sp]}</p>
           ))}
+        </div>
+        <div className="items-center">
+          <Select onValueChange={handleSelectChange}>
+            <Label htmlFor="username" className="text-right">
+              Legal Area
+            </Label>
+            <SelectTrigger className="w-[180px] mt-2">
+              <SelectValue placeholder="Select a Area" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {specializations.map((sp: any, index) => (
+                  <SelectItem key={index} value={sp}>
+                    {lawSpecializations[sp]}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         {/* </div> */}
         <DialogFooter>

@@ -33,6 +33,7 @@ model Case {
   clientMail        String
   createdAt         DateTime @default(now())
   stage             String   @default("Started") // Started, Trail, Judgement, Closed
+  caseArea          String?
   transactionAmount Int
 
   @@index([lawyerMail])
