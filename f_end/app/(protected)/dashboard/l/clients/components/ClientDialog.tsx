@@ -31,7 +31,6 @@ export function ClientDialog(props: any) {
   };
 
   const updateStage = () => {
-    console.log("Hello!!");
     axios
       .patch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/update-case-stage`,
@@ -91,38 +90,42 @@ export function ClientDialog(props: any) {
           </Label>
           <p>{`₹${props.currCase.transactionAmount}`}</p>
         </div>
-        <div className="items-center">
-          <Label htmlFor="username" className="text-right">
-            Stage
-          </Label>
-          <p>{stage}</p>
-        </div>
-        <div>
-          <Select onValueChange={handleSelectChange}>
-            <Label htmlFor="username" className="text-right">
-              Change Stage
-            </Label>
-            <SelectTrigger className="w-[180px] mt-2">
-              <SelectValue placeholder="Update Stage" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="Started">Started</SelectItem>
-                <SelectItem value="Trail">Trail</SelectItem>
-                <SelectItem value="Judgement">Judgement</SelectItem>
-                <SelectItem value="Closed">Closed</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <DialogFooter>
-          <Button type="submit" onClick={() => updateStage()}>
-            Update Stage
-          </Button>
-          {/* <Button type="submit" onClick={() => handleSubmit()}>
+        {props.currCase.stage !== "Closed" && (
+          <>
+            <div className="items-center">
+              <Label htmlFor="username" className="text-right">
+                Stage
+              </Label>
+              <p>{stage}</p>
+            </div>
+            <div>
+              <Select onValueChange={handleSelectChange}>
+                <Label htmlFor="username" className="text-right">
+                  Change Stage
+                </Label>
+                <SelectTrigger className="w-[180px] mt-2">
+                  <SelectValue placeholder="Update Stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="Started">Started</SelectItem>
+                    <SelectItem value="Trail">Trail</SelectItem>
+                    <SelectItem value="Judgement">Judgement</SelectItem>
+                    <SelectItem value="Closed">Closed</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={() => updateStage()}>
+                Update Stage
+              </Button>
+              {/* <Button type="submit" onClick={() => handleSubmit()}>
             Close Case
           </Button> */}
-        </DialogFooter>
+            </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

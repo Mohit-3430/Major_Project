@@ -26,11 +26,13 @@ export default function CurrentClients() {
             },
           }
         );
-        const reqFields = data.cases.map((item: any) => ({
-          clientMail: item.clientMail,
-          transactionAmount: item.transactionAmount,
-          stage: item.stage,
-        }));
+        const reqFields = data.cases
+          .filter((item: any) => item.stage !== "Closed")
+          .map((item: any) => ({
+            clientMail: item.clientMail,
+            transactionAmount: item.transactionAmount,
+            stage: item.stage,
+          }));
         setClients(reqFields);
         setActiveClients(data.clientsCount);
       } catch (err) {
