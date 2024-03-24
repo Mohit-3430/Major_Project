@@ -97,6 +97,7 @@ const RegisterForm = () => {
       age: 0,
       usertype: undefined,
       specializations: [],
+      consultancyCost: 0,
       password: "",
       confirmPassword: "",
     },
@@ -120,6 +121,7 @@ const RegisterForm = () => {
       password,
       confirmPassword,
       specializations,
+      consultancyCost,
     } = values;
 
     const specs: Array<String> = values.specializations.map(
@@ -144,6 +146,7 @@ const RegisterForm = () => {
           age: age,
           usertype: usertype,
           specializations: specs,
+          consultancyCost: consultancyCost,
           password: password,
         }),
       }
@@ -285,32 +288,47 @@ const RegisterForm = () => {
                 }}
               >
                 {ustype === "Lawyer" && (
-                  <div className="mt-[-25px]">
-                    <FormField
-                      control={form.control}
-                      name="specializations"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Frameworks</FormLabel>
-                          <FormControl>
-                            <MultipleSelector
-                              maxSelected={3}
-                              onMaxSelected={(maxLimit) => {
-                                toast({
-                                  title: `You have reached max selected: ${maxLimit}`,
-                                });
-                              }}
-                              value={field.value}
-                              onChange={field.onChange}
-                              defaultOptions={OPTIONS}
-                              placeholder="Select Upto 3 Areas"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <>
+                    <div className="mt-[-25px]">
+                      <FormField
+                        control={form.control}
+                        name="specializations"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Frameworks</FormLabel>
+                            <FormControl>
+                              <MultipleSelector
+                                maxSelected={3}
+                                onMaxSelected={(maxLimit) => {
+                                  toast({
+                                    title: `You have reached max selected: ${maxLimit}`,
+                                  });
+                                }}
+                                value={field.value}
+                                onChange={field.onChange}
+                                defaultOptions={OPTIONS}
+                                placeholder="Select Upto 3 Areas"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="consultancyCost"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Consultancy Cost</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter charges" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </>
                 )}
                 <FormField
                   control={form.control}

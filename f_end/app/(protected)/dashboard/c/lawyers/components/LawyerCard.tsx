@@ -31,6 +31,7 @@ export function LawerCard(props: LawyerData) {
             <LawyerDialog
               lname={props.lname}
               email={props.email}
+              consultancyCost={props.consultancyCost}
               specializations={props.specializations}
             />
           </div>

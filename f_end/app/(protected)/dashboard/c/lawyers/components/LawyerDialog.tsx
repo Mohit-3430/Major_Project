@@ -29,16 +29,15 @@ export function LawyerDialog(props: LawyerData) {
   const session = useSession();
   const clientMail: String = session.data?.user?.email || "";
   const lawyerMail: String = props.email;
+  const consultancyCost: Number = props.consultancyCost;
   const [caseArea, setCaseArea] = useState<string>("");
   const { specializations } = props;
 
   const { toast } = useToast();
   const handleSelectChange = (value: any) => {
-    console.log(value);
     setCaseArea(value);
   };
   const handleSubmit = () => {
-    console.log(caseArea);
     if (caseArea !== "") {
       axios
         .post(
@@ -47,6 +46,7 @@ export function LawyerDialog(props: LawyerData) {
             clientMail: clientMail,
             lawyerMail: lawyerMail,
             caseArea: caseArea,
+            consultancyCost: consultancyCost,
           },
           {
             headers: {
@@ -95,6 +95,12 @@ export function LawyerDialog(props: LawyerData) {
             Email
           </Label>
           <p>{lawyerMail}</p>
+        </div>
+        <div className="items-center">
+          <Label htmlFor="username" className="text-right">
+            Consultancy Cost
+          </Label>
+          <p>{`₹${consultancyCost}`}</p>
         </div>
         <div className="items-center">
           <Label htmlFor="username" className="text-right">

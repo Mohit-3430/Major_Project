@@ -64,6 +64,7 @@ export default function DashboardL() {
                               <LawerCard
                                 lname={item.name}
                                 email={item.email}
+                                consultancyCost={item.consultancyCost}
                                 specializations={item.specializations}
                               />
                             </div>

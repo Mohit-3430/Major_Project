@@ -34,7 +34,15 @@ export const loginHandler = async (req: Request, res: Response) => {
 };
 
 export const registerHandler = async (req: Request, res: Response) => {
-  const { email, name, password, age, usertype, specializations } = req.body;
+  const {
+    email,
+    name,
+    password,
+    age,
+    usertype,
+    specializations,
+    consultancyCost,
+  } = req.body;
   const user = await db.user.findUnique({
     where: {
       email: email,
@@ -49,6 +57,7 @@ export const registerHandler = async (req: Request, res: Response) => {
         age: age,
         password: hashedPassword,
         usertype: usertype,
+        consultancyCost: consultancyCost,
         specializations: specializations,
       };
       const user = await db.user.create({

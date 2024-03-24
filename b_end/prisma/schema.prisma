@@ -17,6 +17,7 @@ model User {
   usertype        String
   age             Int
   password        String
+  consultancyCost Int?
   specializations String[]
   createdAt       DateTime @default(now())
   lawyerCases     Case[]   @relation("LawyerCases")
