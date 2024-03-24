@@ -51,3 +51,31 @@ export const CreateCase = async (req: Request, res: Response) => {
     res.status(400).json({ success: false, msg: "Couldn't consult!" });
   }
 };
+
+export const ClientDashboardData = async (req: Request, res: Response) => {
+  const { clientMail } = req.body;
+  try {
+    const reqcases = await db.case.findMany({
+      where: {
+        clientMail: clientMail,
+      },
+    });
+
+    const totalAmount = reqcases.reduce((accumulator, currentTransaction) => {
+      return accumulator + currentTransaction.transactionAmount;
+    }, 0);
+
+    if (reqcases.length == 0)
+      res.status(202).json({ success: true, msg: "No cases" });
+    else {
+      res.status(200).json({
+        success: true,
+        cases: reqcases,
+        casesCount: reqcases.length,
+        totalAmount: totalAmount,
+      });
+    }
+  } catch (exp) {
+    res.status(400).json({ success: false, msg: "Not Active cases!" });
+  }
+};
