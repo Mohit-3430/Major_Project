@@ -30,6 +30,11 @@ export function ClientDialog(props: any) {
     setStage(value);
   };
 
+  const reOpen = () => {
+    setStage("Started");
+    updateStage();
+  };
+
   const updateStage = () => {
     axios
       .patch(
@@ -125,6 +130,11 @@ export function ClientDialog(props: any) {
           </Button> */}
             </DialogFooter>
           </>
+        )}
+        {props.currCase.stage === "Closed" && (
+          <Button type="submit" onClick={() => reOpen()}>
+            Re-Open
+          </Button>
         )}
       </DialogContent>
     </Dialog>

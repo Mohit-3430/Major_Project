@@ -10,14 +10,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MainNav, Overview, RecentSales, UserNav } from "./_components";
+import { MainNav, RecentSales, UserNav } from "./_components";
 import { ModeToggle } from "@/components/ui/toggle-theme";
 import { SelectedCase } from "./types/SelectedCase";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function DashboardL() {
   const [clients, setClients] = useState([]);
-  const [activeClients, setActiveClients] = useState();
-  const [totalAmount, setTotalAmount] = useState();
+  const [activeClients, setActiveClients] = useState(0);
+  const [totalClients, setTotalClients] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -33,14 +36,16 @@ export default function DashboardL() {
             },
           }
         );
-        console.log(data.cases);
-        const twoFields = data.cases.map((item: SelectedCase) => ({
-          clientMail: item.clientMail,
-          transactionAmount: item.transactionAmount,
-        }));
+        const twoFields = data.cases
+          .filter((item: any) => item.stage !== "Closed")
+          .map((item: SelectedCase) => ({
+            clientMail: item.clientMail,
+            transactionAmount: item.transactionAmount,
+          }));
         setClients(twoFields);
         setTotalAmount(data.totalAmount);
-        setActiveClients(data.clientsCount);
+        setActiveClients(twoFields.length);
+        setTotalClients(data.clientsCount);
       } catch (err) {
         console.log(err);
       }
@@ -66,7 +71,7 @@ export default function DashboardL() {
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -92,7 +97,7 @@ export default function DashboardL() {
                     </p> */}
                   </CardContent>
                 </Card>
-                <Card>
+                {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Subscriptions
@@ -114,11 +119,11 @@ export default function DashboardL() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">+24</div>
-                    {/* <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       +20% from last month
-                    </p> */}
+                    </p>
                   </CardContent>
-                </Card>
+                </Card> */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -139,7 +144,7 @@ export default function DashboardL() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+108</div>
+                    <div className="text-2xl font-bold">{totalClients}</div>
                     {/* <p className="text-xs text-muted-foreground">
                       +18% from last month
                     </p> */}
@@ -172,23 +177,23 @@ export default function DashboardL() {
                 </Card>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
+                {/* <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
                     <Overview />
                   </CardContent>
-                </Card>
-                <Card className="col-span-3">
+                </Card> */}
+                <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Current Clients</CardTitle>
                     <CardDescription>
-                      {activeClients} client(s) this month
+                      {activeClients} Active client(s)
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {activeClients &&
+                    {activeClients !== 0 &&
                       clients.map((item: SelectedCase, index) => (
                         <RecentSales
                           key={index}
@@ -196,6 +201,9 @@ export default function DashboardL() {
                           transactionAmount={item.transactionAmount}
                         />
                       ))}
+                    <Button className="m-5" variant={"outline"}>
+                      <Link href={"/dashboard/l/clients/current"}>View</Link>
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
