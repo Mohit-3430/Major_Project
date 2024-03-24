@@ -16,7 +16,7 @@ export const registerSchema = z.object({
     required_error: "You need to select",
   }),
   specializations: z.array(specschema),
-  consultancyCost: z.number(),
+  consultancyCost: z.string(),
   password: z
     .string()
     .min(6, { message: "Enter password with 6 or more characters" })

@@ -97,7 +97,7 @@ const RegisterForm = () => {
       age: 0,
       usertype: undefined,
       specializations: [],
-      consultancyCost: 0,
+      consultancyCost: "",
       password: "",
       confirmPassword: "",
     },
@@ -146,7 +146,7 @@ const RegisterForm = () => {
           age: age,
           usertype: usertype,
           specializations: specs,
-          consultancyCost: consultancyCost,
+          consultancyCost: Number(consultancyCost),
           password: password,
         }),
       }
