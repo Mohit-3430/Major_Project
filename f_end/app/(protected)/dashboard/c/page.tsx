@@ -31,7 +31,7 @@ export default function DashboardC() {
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/client-dashboard-data`,
           {
-            lawyerMail: localStorage.getItem("lawyerMail"),
+            clientMail: localStorage.getItem("clientMail"),
           },
           {
             headers: {
@@ -126,7 +126,7 @@ export default function DashboardC() {
                       </svg>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{totalcases}</div>
+                      <div className="text-2xl font-bold">{activeLawyers}</div>
                       {/* <p className="text-xs text-muted-foreground">
                       +2 since last month
                     </p> */}

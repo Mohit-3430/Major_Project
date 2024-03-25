@@ -57,17 +57,17 @@ export const ClientDashboardData = async (req: Request, res: Response) => {
   try {
     const reqcases = await db.case.findMany({
       where: {
-        clientMail: clientMail,
+        clientMail: {
+          equals: clientMail,
+        },
       },
     });
 
-    const totalAmount = reqcases.reduce((accumulator, currentTransaction) => {
-      return accumulator + currentTransaction.transactionAmount;
-    }, 0);
-
-    if (reqcases.length == 0)
-      res.status(202).json({ success: true, msg: "No cases" });
+    if (!reqcases) res.status(202).json({ success: true, msg: "No cases" });
     else {
+      const totalAmount = reqcases.reduce((accumulator, currentTransaction) => {
+        return accumulator + currentTransaction.transactionAmount;
+      }, 0);
       res.status(200).json({
         success: true,
         cases: reqcases,
