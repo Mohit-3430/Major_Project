@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import * as config from "@/lib/config";
 
-import { ArrowRight, CodepenIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const Branding = () => {
   return (
@@ -22,8 +23,11 @@ const Branding = () => {
         </p>
       </div>
       <Button>
-        Explore
-        <ArrowRight className="h-4 w-4 ml-1" />
+        <Link href="/login">
+          <span className="flex items-center cursor-pointer">
+            Explore <ArrowRight className="h-4 w-4 ml-1" />
+          </span>
+        </Link>
       </Button>
     </div>
   );
