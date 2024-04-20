@@ -40,8 +40,6 @@ export default function DashboardC() {
           }
         );
 
-        console.log(data);
-
         const twoFields = data.cases
           .filter((item: any) => item.stage !== "Closed")
           .map((item: SelectedCase) => ({

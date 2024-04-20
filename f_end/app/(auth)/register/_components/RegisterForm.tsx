@@ -295,7 +295,7 @@ const RegisterForm = () => {
                         name="specializations"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Frameworks</FormLabel>
+                            <FormLabel>Legal Areas</FormLabel>
                             <FormControl>
                               <MultipleSelector
                                 maxSelected={3}

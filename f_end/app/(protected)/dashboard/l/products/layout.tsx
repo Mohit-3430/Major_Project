@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const sidebarNavItems = [
   {
     title: "Summarization",
-    href: "/dashboard/l/products",
+    href: "/dashboard/l/products/summarization",
   },
   {
     title: "Legal Text Domain Identification",
