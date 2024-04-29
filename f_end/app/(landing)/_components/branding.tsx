@@ -16,10 +16,10 @@ const Branding = () => {
       {/* <h4 className="my-4">Find out Lawyers, Help your Clients</h4> */}
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          "Revolutionary legal platform merging AI technology: a marketplace
+          Revolutionary legal platform merging AI technology: a marketplace
           connecting clients & lawyers, comprehensive practice management tools,
           and cutting-edge AI-powered legal research, shaping the future of
-          legal services."
+          legal services.
         </p>
       </div>
       <Button>

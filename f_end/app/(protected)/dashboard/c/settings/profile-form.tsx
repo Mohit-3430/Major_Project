@@ -120,10 +120,7 @@ export function ProfileForm() {
                   <SelectItem value="m@support.com">m@support.com</SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription>
+              <FormDescription></FormDescription>
               <FormMessage />
             </FormItem>
           )}

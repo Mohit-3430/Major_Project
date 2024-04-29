@@ -58,7 +58,7 @@ export default function CurrentClients() {
               <ScrollArea>
                 <div className="flex space-x-4 pb-4">
                   <>
-                    {activeClients >= 1 ? (
+                    {activeClients && activeClients >= 1 ? (
                       clients.map((item: any, index) => (
                         <div key={index}>
                           <ClientCard

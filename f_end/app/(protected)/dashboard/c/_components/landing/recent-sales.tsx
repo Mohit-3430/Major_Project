@@ -11,7 +11,7 @@ export function RecentSales(props: SelectedCase) {
     .post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-client-info`,
       {
-        clientMail: props.clientMail,
+        clientMail: props?.clientMail,
       },
       {
         headers: {

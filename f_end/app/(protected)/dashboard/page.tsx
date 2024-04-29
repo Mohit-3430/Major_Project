@@ -2,23 +2,25 @@
 import { useSession } from "next-auth/react";
 import * as config from "@/lib/config";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const router = useRouter();
   const session: any = useSession();
   const token = session.data?.user?.token;
   const mail = session.data?.user?.email;
-  localStorage.setItem("token", token);
+  const ISSERVER = typeof window === "undefined";
+  if (!ISSERVER) localStorage.setItem("token", token);
 
   const usertype: string = session.data?.user.usertype;
 
   const render = () => {
     if (usertype == config.usertypes.LAWYER) {
       router.push("/dashboard/l");
-      localStorage.setItem("lawyerMail", mail);
+      if (!ISSERVER) localStorage.setItem("lawyerMail", mail);
     } else {
       router.push("/dashboard/c");
-      localStorage.setItem("clientMail", mail);
+      if (!ISSERVER) localStorage.setItem("clientMail", mail);
     }
   };
 

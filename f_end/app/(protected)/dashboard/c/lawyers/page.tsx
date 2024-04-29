@@ -74,7 +74,7 @@ export default function DashboardL() {
                       <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                   </div>
-                  <div className="mt-6 space-y-1">
+                  {/* <div className="mt-6 space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">
                       Lawyers for you
                     </h2>
@@ -82,7 +82,7 @@ export default function DashboardL() {
                       Your personalized lawyers. Updated daily.
                     </p>
                   </div>
-                  <Separator className="my-4" />
+                  <Separator className="my-4" /> */}
                   <div className="relative">
                     <ScrollArea>
                       <div className="flex space-x-4 pb-4"></div>

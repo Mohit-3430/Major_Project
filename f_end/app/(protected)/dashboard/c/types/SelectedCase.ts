@@ -1,4 +1,5 @@
 export interface SelectedCase {
-  lawyerMail: String;
+  lawyerMail?: String;
+  clientMail?: String;
   transactionAmount: Number;
 }
