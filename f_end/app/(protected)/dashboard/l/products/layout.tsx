@@ -19,10 +19,10 @@ const sidebarNavItems = [
     title: "Legal Text Domain Identification",
     href: "/dashboard/l/products/legaldomain",
   },
-  {
-    title: "Legal Catchphrase Detection",
-    href: "/dashboard/l/products/catchphrase",
-  },
+  // {
+  //   title: "Legal Catchphrase Detection",
+  //   href: "/dashboard/l/products/catchphrase",
+  // },
   // {
   //   title: "Case Similarity",
   //   href: "/dashboard/l/products/similarity",

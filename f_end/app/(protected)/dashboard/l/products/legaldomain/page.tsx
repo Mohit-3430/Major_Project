@@ -56,7 +56,7 @@ export default function LegalArea() {
         <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
           <h2 className="text-lg font-semibold">Legal Area Identification</h2>
         </div>
-        <Separator />
+        <Separator className="lg:min-w-[950px]" />
         <Tabs defaultValue="complete">
           <div className="container py-5">
             <div className="h-full items-stretch">
@@ -64,7 +64,7 @@ export default function LegalArea() {
                 <div className="flex h-full flex-col space-y-4">
                   <Textarea
                     placeholder="Enter the text to identify Legal Area"
-                    className="min-h-[400px] p-4 md:min-h-[500px] md:min-w-[700px] lg:min-h-[500px] lg:min-w-[700px] overflow-y-auto text-justify"
+                    className="min-h-[400px] p-4 md:min-h-[500px] md:min-w-[620px] lg:min-h-[500px] lg:min-w-[950px] overflow-y-auto text-justify"
                     value={textareaValue}
                     onChange={handleTextareaChange}
                   />

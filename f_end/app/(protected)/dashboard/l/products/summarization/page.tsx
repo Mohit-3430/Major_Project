@@ -1,16 +1,54 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { useState, ChangeEvent } from "react";
+import { LoadingButton } from "@/components/ui/loading-button";
+import axios from "axios";
 
 export default function Summarization() {
+  const [textareaValue, setTextareaValue] = useState("");
+  const [result, setResult] = useState();
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextareaValue(event.target.value);
+  };
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const resp = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/summarization`,
+        {
+          data: textareaValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      let res = resp.data.result[0].generated_text;
+      const cleanedText = res.replace(/\*\*.*?\*\*/g, "");
+      setResult(cleanedText);
+    } catch (err) {
+      toast({
+        title: "Model is loading",
+        variant: "destructive",
+      });
+    }
+    setLoading(false);
+  };
   return (
     <>
       <div className="hidden h-full flex-col md:flex">
         <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
           <h2 className="text-lg font-semibold">Legal Text Summarization</h2>
         </div>
-        <Separator />
+        <Separator className="lg:min-w-[950px]" />
         <Tabs defaultValue="complete">
           <div className="container py-5">
             <div className="h-full items-stretch">
@@ -18,13 +56,27 @@ export default function Summarization() {
                 <div className="flex h-full flex-col space-y-4">
                   <Textarea
                     placeholder="Enter the text to summarize"
-                    className="min-h-[400px] p-4 md:min-h-[500px] md:min-w-[700px] lg:min-h-[500px] lg:min-w-[700px] overflow-y-auto text-justify"
+                    className="min-h-[400px] p-4 md:min-h-[500px] md:min-w-[620px] lg:min-h-[500px] lg:min-w-[950px] overflow-y-auto text-justify"
+                    onChange={handleTextareaChange}
                   />
                   <div className="flex items-center space-x-2">
-                    <Button>Submit</Button>
+                    <LoadingButton loading={loading} onClick={handleSubmit}>
+                      Submit
+                    </LoadingButton>
                   </div>
                 </div>
               </TabsContent>
+              {result && (
+                <>
+                  <div className="mt-3">
+                    <b>Summarization of the Above Legal Report:</b>
+                    <br />
+                    <div className="min-h-[400px] p-4 md:min-h-[500px] md:min-w-[620px] lg:min-h-[500px] lg:min-w-[950px] overflow-y-auto text-justify">
+                      {result}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </Tabs>
